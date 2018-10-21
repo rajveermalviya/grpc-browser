@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package pb;
+
+service HeuristGrpc {
+  rpc Check(CheckUsernameRequest) returns (CheckUsernameResponse) {};
+  rpc GetUser(GetUserDetailsRequest) returns (GetUserDetailsResponse) {};
+
+}
+
+message CheckUsernameRequest {
+  string username = 1;
+}
+
+message CheckUsernameResponse {
+  bool isValid = 1;
+}
+
+message GetUserDetailsRequest {
+  string username = 1;
+}
+
+message GetUserDetailsResponse {
+  string username = 1;
+  string imageUrl = 2;
+  string name = 3;
+  string about = 4;
+}
+
+// web-js: protoc -I=. heurist.proto --js_out=import_style=commonjs:client/src/proto  --grpc-web_out=import_style=typescript,mode=grpcwebtext:client/src/proto
+// golang: protoc -I=. heurist.proto  --go_out=plugins=grpc:server/pb

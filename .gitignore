@@ -1,0 +1,4 @@
+server/creds.json
+
+client/.cache
+client/node_modules
