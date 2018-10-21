@@ -5,8 +5,15 @@ services:
     build: ./server
 
   envoy-grpc-proxy:
-    build: ./proxy
+    build: ./server/proxy
     ports:
-      - 8080:8080
+      - 8081:8080
     depends_on:
       - go-grpc-backend
+
+  frontend-grpc:
+    image: nginx:alpine
+    volumes:
+      - ./client/dist:/usr/share/nginx/html
+    ports:
+      - 8080:80

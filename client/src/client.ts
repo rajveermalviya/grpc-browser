@@ -4,7 +4,7 @@ import {
 } from "./proto/heurist_pb";
 import { HeuristGrpcClient } from "./proto/HeuristServiceClientPb";
 
-const client = new HeuristGrpcClient("http://localhost:8080", null, null);
+const client = new HeuristGrpcClient("http://localhost:8081", null, null);
 
 window.addEventListener("load", async () => {
   const checkUsernamebtn = document.getElementById("checkUsername");
