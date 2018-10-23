@@ -1,13 +1,12 @@
 module github.com/rajveermalviya/grpc-browser/server
 
 require (
+	contrib.go.opencensus.io/exporter/stackdriver v0.7.0 // indirect
 	firebase.google.com/go v3.4.0+incompatible
 	github.com/golang/protobuf v1.2.0
-	github.com/google/go-cmp v0.2.0 // indirect
 	github.com/google/martian v2.1.0+incompatible // indirect
-	github.com/googleapis/gax-go v2.0.0+incompatible // indirect
-	go.opencensus.io v0.17.0 // indirect
-	golang.org/x/net v0.0.0-20181017193950-04a2e542c03f
-	google.golang.org/api v0.0.0-20181021000519-a2651947f503
+	go.opencensus.io v0.18.0 // indirect
+	golang.org/x/net v0.0.0-20181023162649-9b4f9f5ad519
+	google.golang.org/api v0.0.0-20180910000450-7ca32eb868bf
 	google.golang.org/grpc v1.15.0
 )
