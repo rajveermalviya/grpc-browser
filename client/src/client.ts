@@ -7,7 +7,7 @@ import { HeuristGrpcClient } from "./proto/HeuristServiceClientPb";
 // create a gRPC client.
 const client = new HeuristGrpcClient("http://localhost:8081", null, null);
 
-window.addEventListener("load", async () => {
+window.addEventListener("load", () => {
   // get all the dom elements
   const checkUsernamebtn = document.getElementById("checkUsername");
   const getUserbtn = document.getElementById("getUser");
@@ -24,10 +24,11 @@ window.addEventListener("load", async () => {
     // with the callback.
     client.check(checkUsernameRequest, {}, (err, response) => {
       if (err) {
-        throw err;
+        console.error(err);
+        res.innerText = JSON.stringify(err, null, 4);
+      } else {
+        res.innerText = String(response.getIsvalid());
       }
-
-      res.innerText = String(response.getIsvalid());
     });
   });
 
@@ -37,19 +38,21 @@ window.addEventListener("load", async () => {
 
     client.getUser(getUserDetailsRequest, {}, (err, response) => {
       if (err) {
-        throw err;
+        console.error(err);
+        res.innerText = JSON.stringify(err, null, 4);
+      } else {
+        // pretty print the response in json.
+        res.innerText = JSON.stringify(
+          {
+            username: response.getUsername(),
+            name: response.getName(),
+            about: response.getAbout(),
+            imgUrl: response.getImageurl()
+          },
+          null,
+          4
+        );
       }
-      // pretty print the response in json.
-      res.innerText = JSON.stringify(
-        {
-          username: response.getUsername(),
-          name: response.getName(),
-          about: response.getAbout(),
-          imgUrl: response.getImageurl()
-        },
-        null,
-        4
-      );
     });
   });
 });
