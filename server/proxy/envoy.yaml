@@ -22,7 +22,7 @@ static_resources:
                       routes:
                         - match: { prefix: '/' }
                           route:
-                            cluster: heurist_service
+                            cluster: proxy_service
                             max_grpc_timeout: 0s
                       cors:
                         allow_origin:
@@ -37,7 +37,7 @@ static_resources:
                   - name: envoy.cors
                   - name: envoy.router
   clusters:
-    - name: heurist_service
+    - name: proxy_service
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}

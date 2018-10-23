@@ -2,3 +2,5 @@ server/creds.json
 
 client/.cache
 client/node_modules
+
+docker-compose.debug.yml

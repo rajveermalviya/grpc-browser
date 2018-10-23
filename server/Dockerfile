@@ -10,4 +10,3 @@ RUN apk --no-cache add ca-certificates
 COPY --from=builder /go/bin/app /app
 COPY ./creds.json /creds.json
 ENTRYPOINT ./app
-EXPOSE 9090
