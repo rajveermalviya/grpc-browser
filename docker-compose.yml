@@ -5,7 +5,10 @@ services:
     build: ./server
 
   envoy-grpc-proxy:
-    build: ./server/proxy
+    image: envoyproxy/envoy-alpine
+    volumes:
+      - ./server/proxy/envoy.yaml:/etc/envoy/envoy.yaml
+    command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml
     ports:
       - 8081:8080
     depends_on:
@@ -17,3 +20,5 @@ services:
       - ./client/dist:/usr/share/nginx/html
     ports:
       - 8080:80
+    depends_on:
+      - envoy-grpc-proxy
