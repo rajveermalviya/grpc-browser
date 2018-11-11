@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 
+	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"github.com/rajveermalviya/grpc-browser/server/pb"
 	"golang.org/x/net/context"
@@ -15,17 +16,11 @@ import (
 // Some global vars
 var globalCtx = context.Background()
 
-// get the Firebase Creds file
-var opt = option.WithCredentialsFile("creds.json")
-
-// Instantiate the Firebase admin SDK
-var app, appErr = firebase.NewApp(globalCtx, nil, opt)
-
-// Instantiate Firestore
-var client, dbErr = app.Firestore(globalCtx)
-
 // MyServer is a starting point to define all my services.
-type MyServer struct{}
+type MyServer struct {
+	db        *firestore.Client
+	globalCtx context.Context
+}
 
 // Check is a gRPC end point to check if an user exists in the database
 func (s *MyServer) Check(ctx context.Context, username *pb.CheckUsernameRequest) (*pb.CheckUsernameResponse, error) {
@@ -37,7 +32,7 @@ func (s *MyServer) Check(ctx context.Context, username *pb.CheckUsernameRequest)
 		go func() { log.Println("Service : Check :", uname) }()
 
 		// get the firestore document
-		doc, _ := client.Collection("users").Where("username", "==", uname).Documents(globalCtx).Next()
+		doc, _ := s.db.Collection("users").Where("username", "==", uname).Documents(globalCtx).Next()
 
 		// if document is nil, no username exists, username is valid
 		if doc == nil {
@@ -61,7 +56,7 @@ func (s *MyServer) GetUser(ctx context.Context, username *pb.GetUserDetailsReque
 		go func() { log.Println("Service : GetUser :", uname) }()
 
 		// get the firestore document
-		doc, _ := client.Collection("users").Where("username", "==", uname).Documents(globalCtx).Next()
+		doc, _ := s.db.Collection("users").Where("username", "==", uname).Documents(globalCtx).Next()
 
 		// if doc is nil no user exists, so return  an error.
 		if doc == nil {
@@ -79,34 +74,42 @@ func (s *MyServer) GetUser(ctx context.Context, username *pb.GetUserDetailsReque
 		}, nil
 	}
 
-	return nil, errors.New("inavlid username recieved")
+	return nil, errors.New("invalid username recieved")
 }
 
 func main() {
+	// get the Firebase Creds file
+	opt := option.WithCredentialsFile("creds.json")
+
+	// Instantiate the Firebase admin SDK
+	app, err := firebase.NewApp(globalCtx, nil, opt)
+	if err != nil {
+		log.Fatalf("error initializing app: %v\n", err)
+	}
+
+	// Instantiate Firestore
+	client, err := app.Firestore(globalCtx)
+	if err != nil {
+		log.Fatalf("error initializing firestore: %v\n", err)
+	}
+
 	// close the firestore connection at the end of main func
 	defer client.Close()
-
-	if appErr != nil {
-		log.Fatalf("error initializing app: %v\n", appErr)
-	}
-
-	if dbErr != nil {
-		log.Fatalf("error initializing firestore: %v\n", dbErr)
-	}
 
 	// create a tcp socket connection on port 9090
 	lis, err := net.Listen("tcp", ":9090")
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalln("failed to listen:", err)
 	}
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterHeuristGrpcServer(grpcServer, &MyServer{})
+	pb.RegisterHeuristGrpcServer(grpcServer, &MyServer{
+		db:        client,
+		globalCtx: globalCtx,
+	})
 
 	log.Println("Starting server on 9090")
+
 	// start the gRPC server
-	err = grpcServer.Serve(lis)
-	if err != nil {
-		log.Fatalf("error occured in starting gRPC server: %v", err)
-	}
+	log.Fatalln(grpcServer.Serve(lis))
 }

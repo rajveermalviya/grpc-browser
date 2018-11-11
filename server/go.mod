@@ -1,6 +1,7 @@
 module github.com/rajveermalviya/grpc-browser/server
 
 require (
+	cloud.google.com/go v0.26.0
 	contrib.go.opencensus.io/exporter/stackdriver v0.7.0 // indirect
 	firebase.google.com/go v3.4.0+incompatible
 	github.com/golang/protobuf v1.2.0
