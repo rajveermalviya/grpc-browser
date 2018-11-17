@@ -1,11 +1,13 @@
-module github.com/rajveermalviya/grpc-browser
+module github.com/rajveermalviya/grpc-browser/server
 
 require (
-	cloud.google.com/go v0.32.0
+	cloud.google.com/go v0.33.1
 	firebase.google.com/go v3.4.0+incompatible
 	github.com/golang/protobuf v1.2.0
-	github.com/rajveermalviya/grpc-browser/server v0.0.0-20181111040507-20cdb2eed897
-	golang.org/x/net v0.0.0-20181108082009-03003ca0c849
-	google.golang.org/api v0.0.0-20180910000450-7ca32eb868bf
+	github.com/google/martian v2.1.0+incompatible // indirect
+	github.com/googleapis/gax-go v2.0.2+incompatible // indirect
+	go.opencensus.io v0.18.0 // indirect
+	golang.org/x/net v0.0.0-20181114220301-adae6a3d119a
+	google.golang.org/api v0.0.0-20181114235557-83a9d304b1e6
 	google.golang.org/grpc v1.16.0
 )
