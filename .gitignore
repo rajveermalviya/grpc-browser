@@ -4,3 +4,4 @@ frontend/.cache
 frontend/node_modules
 
 .env
+docker-compose.debug.yml
