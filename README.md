@@ -15,8 +15,8 @@ Firestore's client library for web that is already pretty fast but, I wanted to
 create some small API's that has all access to the Firestore data and hide the data on client-side using the Firestore security rules.
 
 Browsers only supports http protocol so, it is necessary to have a proxy that recieves the
-`http://` and converts it to `grpc://` for backend to understand it. So, official gRPC uses
-Envoy proxy by default so I have used the same.
+`http://` and converts it to `grpc://` for backend to understand it. Envoy-proxy support grpc-web natively
+so using some http-filters, so I have used the same.
 
 ## Guide
 
@@ -28,9 +28,23 @@ Envoy proxy by default so I have used the same.
 ## One Command Run
 
 First you need to have a Firebase project ready and also Firestore initialized.
-Then create some dummy data into your database make sure to use the same schema as defined in the server.
+Then create some dummy data into your database.
+Make sure to model the data in same way my backend service is using it.
+Check out the service in `./backend/server.go`.
 
-You also need to have docker & docker-compose installed in the dev-environment.
+Get the firebase credentials.json for admin-sdk from your console.
+In `./docker-compose.yml` copy the content of your JSON file add it like following
+
+```yml
+..
+backend:
+  image: rajveermalviya/grpc-browser:backend
+  environment:
+    FIREBASE_CREDENTIALS: '...YOUR...CREDENTIALS...JSON...CONTENT...' # replace this with actual content.
+..
+```
+
+You also need to have [Docker](https://www.docker.com/get-started) & [Docker-Compose](https://docs.docker.com/compose/install/) installed in the dev-environment.
 
 Then just run the following command from the repo root directory:
 
@@ -38,13 +52,6 @@ Then just run the following command from the repo root directory:
 docker-compose up
 ```
 
-Once the images are built, and to see the worst html page go to:
+Once the images are built, to see the _worst_ html page go to: `http://localhost:8080`
 
-`http://localhost:8080`
-
-Now enter any username and then open the network panel it will send request to `localhost:8081` i.e the envoy-proxy.
-
-If you have much better knowledge about nginx you can bypass this doing some rewriting of the hosts so that gRPC call can be
-internally rewritten to envoy-proxy to have all the traffic going to only one host and only exposing one host.
-
-To shutdown: `docker-compose down`.
+Now enter any username and then open the network panel it will send request to `https://localhost:8081` i.e the envoy-proxy.

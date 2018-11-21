@@ -43,4 +43,4 @@ static_resources:
       http2_protocol_options: {}
       lb_policy: round_robin
       # TODO: change the address here if changed in the docker-compose file.
-      hosts: [{ socket_address: { address: go-grpc-backend, port_value: 9090 } }]
+      hosts: [{ socket_address: { address: backend, port_value: 9090 } }]

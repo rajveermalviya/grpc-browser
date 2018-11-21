@@ -1,19 +1,17 @@
 version: '3'
 
 services:
-  go-grpc-backend:
-    build: ./server
+  backend:
+    image: rajveermalviya/grpc-browser:backend
+    environment:
+      FIREBASE_CREDENTIALS: '...YOUR...CREDENTIALS...JSON...CONTENT...'
 
-  envoy-grpc-proxy:
-    build: ./server/proxy
+  proxy:
+    image: rajveermalviya/grpc-browser:proxy
     ports:
       - 8081:8080
-    depends_on:
-      - go-grpc-backend
 
-  frontend-grpc:
-    build: ./client
+  frontend:
+    image: rajveermalviya/grpc-browser:frontend
     ports:
       - 8080:80
-    depends_on:
-      - envoy-grpc-proxy

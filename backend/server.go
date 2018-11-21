@@ -4,35 +4,29 @@ import (
 	"errors"
 	"log"
 	"net"
+	"os"
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
-	"github.com/rajveermalviya/grpc-browser/server/pb"
+	"github.com/rajveermalviya/grpc-browser/backend/pb"
 	"golang.org/x/net/context"
 	"google.golang.org/api/option"
 	"google.golang.org/grpc"
 )
 
-// Some global vars
-var globalCtx = context.Background()
-
-// MyServer is a starting point to define all my services.
-type MyServer struct {
-	db        *firestore.Client
-	globalCtx context.Context
-}
+// HeuristGRPC is a starting point to define all my services.
+type HeuristGRPC struct{ db *firestore.Client }
 
 // Check is a gRPC end point to check if an user exists in the database
-func (s *MyServer) Check(ctx context.Context, username *pb.CheckUsernameRequest) (*pb.CheckUsernameResponse, error) {
+func (s *HeuristGRPC) Check(ctx context.Context, username *pb.CheckUsernameRequest) (*pb.CheckUsernameResponse, error) {
 	// get username from the incoming request.
 	uname := username.GetUsername()
 
 	if uname != "" {
-		// do logging in different goroutine
-		go func() { log.Println("Service : Check :", uname) }()
+		log.Println("Service : Check :", uname)
 
 		// get the firestore document
-		doc, _ := s.db.Collection("users").Where("username", "==", uname).Documents(globalCtx).Next()
+		doc, _ := s.db.Collection("users").Where("username", "==", uname).Documents(ctx).Next()
 
 		// if document is nil, no username exists, username is valid
 		if doc == nil {
@@ -47,16 +41,15 @@ func (s *MyServer) Check(ctx context.Context, username *pb.CheckUsernameRequest)
 }
 
 // GetUser is an API to get userdata given the username.
-func (s *MyServer) GetUser(ctx context.Context, username *pb.GetUserDetailsRequest) (*pb.GetUserDetailsResponse, error) {
+func (s *HeuristGRPC) GetUser(ctx context.Context, username *pb.GetUserDetailsRequest) (*pb.GetUserDetailsResponse, error) {
 	// get username from the incoming request.
 	uname := username.GetUsername()
 
 	if uname != "" {
-		// do logging in different goroutine
-		go func() { log.Println("Service : GetUser :", uname) }()
+		log.Println("Service : GetUser :", uname)
 
 		// get the firestore document
-		doc, _ := s.db.Collection("users").Where("username", "==", uname).Documents(globalCtx).Next()
+		doc, _ := s.db.Collection("users").Where("username", "==", uname).Documents(ctx).Next()
 
 		// if doc is nil no user exists, so return  an error.
 		if doc == nil {
@@ -78,17 +71,19 @@ func (s *MyServer) GetUser(ctx context.Context, username *pb.GetUserDetailsReque
 }
 
 func main() {
-	// get the Firebase Creds file
-	opt := option.WithCredentialsFile("creds.json")
+	ctx := context.Background()
+
+	// get the Firebase Creds env var.
+	opt := option.WithCredentialsJSON([]byte(os.Getenv("FIREBASE_CREDENTIALS")))
 
 	// Instantiate the Firebase admin SDK
-	app, err := firebase.NewApp(globalCtx, nil, opt)
+	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
 		log.Fatalf("error initializing app: %v\n", err)
 	}
 
 	// Instantiate Firestore
-	client, err := app.Firestore(globalCtx)
+	client, err := app.Firestore(ctx)
 	if err != nil {
 		log.Fatalf("error initializing firestore: %v\n", err)
 	}
@@ -103,10 +98,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterHeuristGrpcServer(grpcServer, &MyServer{
-		db:        client,
-		globalCtx: globalCtx,
-	})
+	pb.RegisterHeuristGrpcServer(grpcServer, &HeuristGRPC{db: client})
 
 	log.Println("Starting server on 9090")
 
