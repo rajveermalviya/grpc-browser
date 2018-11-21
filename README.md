@@ -54,4 +54,4 @@ docker-compose up
 
 Once the images are built, to see the _worst_ html page go to: `http://localhost:8080`
 
-Now enter any username and then open the network panel it will send request to `https://localhost:8081` i.e the envoy-proxy.
+Now enter any username and then open the network panel it will send request to `https://localhost:8080/heurist_proto.HeuristGrpc` i.e the envoy-proxy will route it to grpc service.

@@ -91,8 +91,8 @@ func main() {
 	// close the firestore connection at the end of main func
 	defer client.Close()
 
-	// create a tcp socket connection on port 9090
-	lis, err := net.Listen("tcp", ":9090")
+	// create a tcp socket connection on port 9000
+	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		log.Fatalln("failed to listen:", err)
 	}
@@ -100,7 +100,7 @@ func main() {
 	grpcServer := grpc.NewServer()
 	pb.RegisterHeuristGrpcServer(grpcServer, &HeuristGRPC{db: client})
 
-	log.Println("Starting server on 9090")
+	log.Println("Starting server on 9000")
 
 	// start the gRPC server
 	log.Fatalln(grpcServer.Serve(lis))

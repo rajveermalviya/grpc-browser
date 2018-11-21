@@ -1,7 +1,7 @@
 admin:
   access_log_path: /tmp/admin_access.log
   address:
-    socket_address: { address: 0.0.0.0, port_value: 9901 }
+    socket_address: { address: 0.0.0.0, port_value: 9090 }
 
 static_resources:
   listeners:
@@ -20,27 +20,35 @@ static_resources:
                     - name: local_service
                       domains: ['*']
                       routes:
+                        - match: { prefix: '/heurist_proto.HeuristGrpc' }
+                          route:
+                            cluster: grpc-backend
+                            max_grpc_timeout: 0s
                         - match: { prefix: '/' }
                           route:
-                            cluster: proxy_service
-                            max_grpc_timeout: 0s
+                            cluster: frontend
                       cors:
                         allow_origin:
                           - '*'
                         allow_methods: GET, PUT, DELETE, POST, OPTIONS
                         allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,custom-header-1,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout
                         max_age: '1728000'
-                        expose_headers: custom-header-1,grpc-status,grpc-message
+                        expose_headers: grpc-status,grpc-message
                         enabled: true
                 http_filters:
                   - name: envoy.grpc_web
-                  - name: envoy.cors
                   - name: envoy.router
   clusters:
-    - name: proxy_service
+    - name: grpc-backend
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
       lb_policy: round_robin
       # TODO: change the address here if changed in the docker-compose file.
-      hosts: [{ socket_address: { address: backend, port_value: 9090 } }]
+      hosts: [{ socket_address: { address: backend, port_value: 9000 } }]
+    - name: frontend
+      connect_timeout: 0.25s
+      type: logical_dns
+      lb_policy: round_robin
+      # TODO: change the address here if changed in the docker-compose file.
+      hosts: [{ socket_address: { address: frontend, port_value: 80 } }]
