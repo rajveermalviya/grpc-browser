@@ -5,7 +5,12 @@ import {
 import { HeuristGrpcClient } from "./proto/HeuristServiceClientPb";
 
 // create a gRPC client.
-const client = new HeuristGrpcClient("http://localhost:8081", null, null);
+const protocol = window.location.protocol;
+const host = window.location.host;
+
+const hostname = `${protocol}//${host}`;
+console.log(hostname);
+const client = new HeuristGrpcClient(hostname, null, null);
 
 window.addEventListener("load", () => {
   // get all the dom elements

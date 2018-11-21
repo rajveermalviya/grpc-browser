@@ -2,7 +2,7 @@ FROM node:8-alpine AS builder
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json", "./"]
 RUN npm install --silent && mv node_modules ../
-RUN npm i -g parcel-bundler
+RUN npm install -g parcel-bundler
 COPY . .
 RUN npm run build
 
