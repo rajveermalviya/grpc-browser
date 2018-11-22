@@ -1,0 +1,100 @@
+html,
+body {
+  margin: 0 auto;
+  font-family: 'Roboto Mono', monospace;
+  display: grid;
+  row-gap: 50px;
+  width: 100%;
+}
+
+h1 {
+  margin-top: 10vh;
+  grid-area: 'header';
+  align-self: center;
+  justify-self: center;
+}
+
+button#getUser {
+  grid-area: 'getUser';
+  min-width: 100px;
+}
+
+button#checkUsername {
+  grid-area: 'checkUsername';
+  min-width: 150px;
+}
+
+button {
+  border: 0;
+  background: #3f3f3f;
+  min-height: 30px;
+  max-width: 150px;
+  max-height: 40px;
+  align-self: center;
+  justify-self: center;
+  color: #ffffff;
+  border-radius: 0.3em;
+  font-family: 'Roboto Mono', monospace;
+}
+
+input {
+  outline: none;
+  justify-self: center;
+  border-radius: 0.3em;
+  padding: 10px;
+  font-family: 'Roboto Mono', monospace;
+}
+
+:-ms-input-placeholder {
+  font-family: 'Roboto Mono', monospace;
+}
+::-webkit-input-placeholder {
+  font-family: 'Roboto Mono', monospace;
+}
+
+div#result {
+  align-self: center;
+  justify-self: center;
+}
+
+div#buttons {
+  display: grid;
+  grid-template-areas: 'getUser checkUsername';
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+img#image {
+  width: 200px;
+  height: 200px;
+  grid-area: image;
+  justify-self: center;
+  margin-bottom: 20px;
+}
+
+p#username {
+  margin-left: 5px;
+  grid-area: username;
+}
+
+p#name {
+  margin-left: 5px;
+  grid-area: name;
+}
+
+div.userData {
+  display: grid;
+  align-items: center;
+  grid-template-areas:
+    'image'
+    'username'
+    'name';
+}
+
+@media all and (max-width: 480px) {
+  h1 {
+    font-size: 22px;
+  }
+}

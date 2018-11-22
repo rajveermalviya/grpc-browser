@@ -52,6 +52,18 @@ export class HeuristGrpcClient {
     );
   }
 
+  checkPromise(
+    checkUsernameRequest: CheckUsernameRequest,
+    metadata: grpcWeb.Metadata
+  ): Promise<CheckUsernameResponse> {
+    return new Promise((resolve, reject) => {
+      this.check(checkUsernameRequest, metadata, (err, response) => {
+        if (err) reject(err);
+        resolve(response);
+      });
+    });
+  }
+
   methodInfoGetUser = new grpcWeb.AbstractClientBase.MethodInfo(
     GetUserDetailsResponse,
     (request: GetUserDetailsRequest) => {
@@ -72,5 +84,17 @@ export class HeuristGrpcClient {
       this.methodInfoGetUser,
       callback
     );
+  }
+
+  getUserPromise(
+    getUserDetailsRequest: GetUserDetailsRequest,
+    metadata: grpcWeb.Metadata
+  ): Promise<GetUserDetailsResponse> {
+    return new Promise((resolve, reject) => {
+      this.getUser(getUserDetailsRequest, metadata, (err, response) => {
+        if (err) reject(err);
+        resolve(response);
+      });
+    });
   }
 }

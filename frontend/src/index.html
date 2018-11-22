@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>GRPC</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="client.ts"></script>
-</head>
+    <title>Heurist Search</title>
 
-<body>
-  <button id="getUser">getUser</button>
-  <button id="checkUsername">checkUsername</button>
-  <input id="username" type="text">
-  <p id="response"></p>
-</body>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="client.ts"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet" />
+    <link href="main.css" rel="stylesheet" />
+  </head>
 
+  <body>
+    <h1>Heurist Search</h1>
+
+    <input id="username" type="text" placeholder="Username" />
+    <div id="buttons">
+      <button id="getUser">GET USER</button> <button id="checkUsername">CHECK USERNAME</button>
+    </div>
+    <div id="result"></div>
+  </body>
 </html>

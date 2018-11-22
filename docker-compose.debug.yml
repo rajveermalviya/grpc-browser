@@ -2,10 +2,10 @@ version: '3'
 
 services:
   backend:
-    image: rajveermalviya/grpc-browser:backend
+    build: ./backend
 
   proxy:
-    image: rajveermalviya/grpc-browser:proxy
+    build: ./backend/proxy
     ports:
       - 8080:8080
       - 9090:9090
