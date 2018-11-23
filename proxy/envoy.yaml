@@ -22,11 +22,11 @@ static_resources:
                       routes:
                         - match: { prefix: '/heurist_proto.HeuristGrpc' }
                           route:
-                            cluster: grpc-backend
+                            cluster: backend-cluster
                             max_grpc_timeout: 0s
                         - match: { prefix: '/' }
                           route:
-                            cluster: frontend
+                            cluster: frontend-cluster
                       cors:
                         allow_origin:
                           - '*'
@@ -39,14 +39,14 @@ static_resources:
                   - name: envoy.grpc_web
                   - name: envoy.router
   clusters:
-    - name: grpc-backend
+    - name: backend-cluster
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
       lb_policy: round_robin
       # TODO: change the address here if changed in the docker-compose file.
       hosts: [{ socket_address: { address: backend, port_value: 9000 } }]
-    - name: frontend
+    - name: frontend-cluster
       connect_timeout: 0.25s
       type: logical_dns
       lb_policy: round_robin
