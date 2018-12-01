@@ -3,12 +3,18 @@ version: '3'
 services:
   backend:
     build: ./backend
+    environment:
+      FIREBASE_CREDENTIALS: '...YOUR...CREDENTIALS...JSON...CONTENT...'
+    ports:
+      - '9000'
 
   proxy:
     build: ./proxy
     ports:
-      - 8080:8080
-      - 9090:9090
+      - '8080:8080'
+      - '9090:9090'
 
   frontend:
     build: ./frontend
+    ports:
+      - '80'
