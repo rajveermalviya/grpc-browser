@@ -5,8 +5,6 @@ services:
     image: rajveermalviya/grpc-browser:backend
     environment:
       FIREBASE_CREDENTIALS: '...YOUR...CREDENTIALS...JSON...CONTENT...'
-    ports:
-      - '9000'
 
   proxy:
     image: rajveermalviya/grpc-browser:proxy
@@ -16,5 +14,3 @@ services:
 
   frontend:
     image: rajveermalviya/grpc-browser:frontend
-    ports:
-      - '80'

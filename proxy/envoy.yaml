@@ -20,7 +20,7 @@ static_resources:
                     - name: local_service
                       domains: ['*']
                       routes:
-                        - match: { prefix: '/heurist_proto.HeuristGrpc' }
+                        - match: { prefix: '/pb.HeuristGrpc' }
                           route:
                             cluster: backend-cluster
                             max_grpc_timeout: 0s

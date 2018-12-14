@@ -3,6 +3,7 @@ import {
   GetUserDetailsRequest
 } from "./proto/heurist_pb";
 import { HeuristGrpcClient } from "./proto/HeuristServiceClientPb";
+import { GRPC } from "./utils";
 
 // create a gRPC client.
 const protocol = window.location.protocol;
@@ -10,7 +11,7 @@ const host = window.location.host;
 
 const hostname = `${protocol}//${host}`;
 console.log(hostname);
-const client = new HeuristGrpcClient(hostname, null, null);
+const grpcClient = new GRPC(new HeuristGrpcClient(hostname, null, null));
 
 window.addEventListener("load", () => {
   // get all the dom elements
@@ -30,7 +31,7 @@ window.addEventListener("load", () => {
     // and call the gRPC endpoint.
     // with the callback.
     try {
-      const res = await client.checkPromise(checkUsernameRequest, {});
+      const res = await grpcClient.check(checkUsernameRequest, {});
 
       if (res.getIsvalid()) {
         e.innerText = "Username is valid";
@@ -48,19 +49,13 @@ window.addEventListener("load", () => {
   getUserbtn.addEventListener("click", async () => {
     result.innerHTML = "";
 
-    // if (username) e.removeChild(username);
-    // if (name) e.removeChild(name);
-    // if (image) e.removeChild(image);
-    // if (about) e.removeChild(about);
-    // e.remove();
-
     const getUserDetailsRequest = new GetUserDetailsRequest();
     getUserDetailsRequest.setUsername(input.value);
 
     const e = document.createElement("div");
 
     try {
-      const res = await client.getUserPromise(getUserDetailsRequest, {});
+      const res = await grpcClient.getUser(getUserDetailsRequest, {});
       // pretty print the response in json.
       const username = document.createElement("p");
       const name = document.createElement("p");

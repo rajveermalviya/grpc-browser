@@ -1,28 +1,30 @@
 /**
- * @fileoverview gRPC-Web generated client stub for heurist_proto
+ * @fileoverview gRPC-Web generated client stub for pb
  * @enhanceable
  * @public
  */
 
 // GENERATED CODE -- DO NOT EDIT!
 
-import * as grpcWeb from "grpc-web";
+
+import * as grpcWeb from 'grpc-web';
 import {
   CheckUsernameRequest,
   CheckUsernameResponse,
   GetUserDetailsRequest,
-  GetUserDetailsResponse
-} from "./heurist_pb";
+  GetUserDetailsResponse} from './heurist_pb';
 
 export class HeuristGrpcClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
-  credentials_: {};
-  options_: { [s: string]: {} };
+  credentials_: null | { [index: string]: string; };
+  options_: null | { [index: string]: string; };
 
-  constructor(hostname: string, credentials: {}, options: { [s: string]: {} }) {
+  constructor (hostname: string,
+               credentials: null | { [index: string]: string; },
+               options: null | { [index: string]: string; }) {
     if (!options) options = {};
-    options["format"] = "text";
+    options['format'] = 'binary';
 
     this.client_ = new grpcWeb.GrpcWebClientBase(options);
     this.hostname_ = hostname;
@@ -41,27 +43,15 @@ export class HeuristGrpcClient {
   check(
     request: CheckUsernameRequest,
     metadata: grpcWeb.Metadata,
-    callback: (err: grpcWeb.Error, response: CheckUsernameResponse) => void
-  ) {
+    callback: (err: grpcWeb.Error,
+               response: CheckUsernameResponse) => void) {
     return this.client_.rpcCall(
-      this.hostname_ + "/heurist_proto.HeuristGrpc/Check",
+      this.hostname_ +
+        '/pb.HeuristGrpc/Check',
       request,
       metadata,
       this.methodInfoCheck,
-      callback
-    );
-  }
-
-  checkPromise(
-    checkUsernameRequest: CheckUsernameRequest,
-    metadata: grpcWeb.Metadata
-  ): Promise<CheckUsernameResponse> {
-    return new Promise((resolve, reject) => {
-      this.check(checkUsernameRequest, metadata, (err, response) => {
-        if (err) reject(err);
-        resolve(response);
-      });
-    });
+      callback);
   }
 
   methodInfoGetUser = new grpcWeb.AbstractClientBase.MethodInfo(
@@ -75,26 +65,16 @@ export class HeuristGrpcClient {
   getUser(
     request: GetUserDetailsRequest,
     metadata: grpcWeb.Metadata,
-    callback: (err: grpcWeb.Error, response: GetUserDetailsResponse) => void
-  ) {
+    callback: (err: grpcWeb.Error,
+               response: GetUserDetailsResponse) => void) {
     return this.client_.rpcCall(
-      this.hostname_ + "/heurist_proto.HeuristGrpc/GetUser",
+      this.hostname_ +
+        '/pb.HeuristGrpc/GetUser',
       request,
       metadata,
       this.methodInfoGetUser,
-      callback
-    );
+      callback);
   }
 
-  getUserPromise(
-    getUserDetailsRequest: GetUserDetailsRequest,
-    metadata: grpcWeb.Metadata
-  ): Promise<GetUserDetailsResponse> {
-    return new Promise((resolve, reject) => {
-      this.getUser(getUserDetailsRequest, metadata, (err, response) => {
-        if (err) reject(err);
-        resolve(response);
-      });
-    });
-  }
 }
+

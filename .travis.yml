@@ -1,0 +1,23 @@
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+matrix:
+  include:
+    - name: 'Proxy image'
+      env: BUILD_DIR=proxy
+
+    - name: 'Backend image'
+      env: BUILD_DIR=backend
+
+    - name: 'Frontend image'
+      env: BUILD_DIR=frontend
+
+script:
+  - docker build -t rajveermalviya/grpc-browser:$BUILD_DIR $BUILD_DIR
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push rajveermalviya/grpc-browser:$BUILD_DIR
