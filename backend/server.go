@@ -26,7 +26,10 @@ func (s *HeuristGRPC) Check(ctx context.Context, username *pb.CheckUsernameReque
 		log.Println("Service : Check :", uname)
 
 		// get the firestore document
-		doc, _ := s.db.Collection("users").Where("username", "==", uname).Documents(ctx).Next()
+		doc, err := s.db.Collection("users").Where("username", "==", uname).Documents(ctx).Next()
+		if err != nil {
+			log.Println(err)
+		}
 
 		// if document is nil, no username exists, username is valid
 		if doc == nil {
@@ -49,7 +52,10 @@ func (s *HeuristGRPC) GetUser(ctx context.Context, username *pb.GetUserDetailsRe
 		log.Println("Service : GetUser :", uname)
 
 		// get the firestore document
-		doc, _ := s.db.Collection("users").Where("username", "==", uname).Documents(ctx).Next()
+		doc, err := s.db.Collection("users").Where("username", "==", uname).Documents(ctx).Next()
+		if err != nil {
+			log.Println(err)
+		}
 
 		// if doc is nil no user exists, so return  an error.
 		if doc == nil {
