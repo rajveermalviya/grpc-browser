@@ -10,7 +10,7 @@ services:
     image: rajveermalviya/grpc-browser:proxy
     ports:
       - '8080:8080'
-      - '9090:9090'
+      - '10000:10000'
 
   frontend:
     image: rajveermalviya/grpc-browser:frontend
