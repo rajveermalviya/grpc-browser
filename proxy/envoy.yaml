@@ -37,7 +37,7 @@ static_resources:
       lb_policy: round_robin
       hosts:
         - socket_address:
-            address: backend
+            address: backend-service
             port_value: 9000
 
     - name: frontend-cluster
@@ -46,5 +46,5 @@ static_resources:
       lb_policy: round_robin
       hosts:
         - socket_address:
-            address: frontend
+            address: frontend-service
             port_value: 80

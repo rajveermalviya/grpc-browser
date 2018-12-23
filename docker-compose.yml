@@ -1,16 +1,16 @@
 version: '3'
 
 services:
-  backend:
+  backend-service:
     image: rajveermalviya/grpc-browser:backend
     environment:
       FIREBASE_CREDENTIALS: '...YOUR...CREDENTIALS...JSON...CONTENT...'
 
-  proxy:
+  proxy-service:
     image: rajveermalviya/grpc-browser:proxy
     ports:
       - '8080:8080'
       - '10000:10000'
 
-  frontend:
+  frontend-service:
     image: rajveermalviya/grpc-browser:frontend

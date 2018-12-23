@@ -2,3 +2,4 @@ backend/creds.json
 
 frontend/.cache
 frontend/node_modules
+kube.yml
