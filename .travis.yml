@@ -1,3 +1,6 @@
+dist: xenial
+language: bash
+
 services:
   - docker
 
@@ -18,6 +21,8 @@ matrix:
       env: BUILD_DIR=frontend
 
 script:
+  - bash install.sh
+  - bash gen_proto.sh
   - docker build -t rajveermalviya/grpc-browser:$BUILD_DIR $BUILD_DIR
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push rajveermalviya/grpc-browser:$BUILD_DIR

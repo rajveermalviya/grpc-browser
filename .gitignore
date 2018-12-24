@@ -3,3 +3,6 @@ backend/creds.json
 frontend/.cache
 frontend/node_modules
 kube.yml
+
+backend/pb
+frontend/src/proto
