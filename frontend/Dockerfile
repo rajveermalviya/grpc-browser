@@ -1,4 +1,4 @@
-FROM node:8-alpine AS builder
+FROM node:8 AS builder
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json", "./"]
 RUN npm install --silent && mv node_modules ../

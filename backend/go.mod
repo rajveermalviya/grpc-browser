@@ -6,8 +6,7 @@ require (
 	github.com/golang/protobuf v1.2.0
 	github.com/google/martian v2.1.0+incompatible // indirect
 	github.com/googleapis/gax-go v2.0.2+incompatible // indirect
-	go.opencensus.io v0.18.0 // indirect
-	golang.org/x/net v0.0.0-20181213202711-891ebc4b82d6
-	google.golang.org/api v0.0.0-20181214000652-874d9dc5b186
+	golang.org/x/net v0.0.0-20181220203305-927f97764cc3
+	google.golang.org/api v0.1.0
 	google.golang.org/grpc v1.17.0
 )

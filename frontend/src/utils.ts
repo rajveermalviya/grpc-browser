@@ -9,9 +9,11 @@ import { Metadata } from "grpc-web";
 
 export class GRPC {
   private _client: HeuristGrpcClient;
+
   constructor(client: HeuristGrpcClient) {
     this._client = client;
   }
+
   check(req: CheckUsernameRequest, metadata: Metadata) {
     return new Promise<CheckUsernameResponse>((resolve, reject) => {
       this._client.check(req, metadata, (err, res) => {
@@ -20,6 +22,7 @@ export class GRPC {
       });
     });
   }
+
   getUser(req: GetUserDetailsRequest, metadata: Metadata) {
     return new Promise<GetUserDetailsResponse>((resolve, reject) => {
       this._client.getUser(req, metadata, (err, res) => {

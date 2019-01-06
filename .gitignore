@@ -1,8 +1,15 @@
+# creds
 backend/creds.json
 
 frontend/.cache
 frontend/node_modules
+
 kube.yml
 
+# generated files
 backend/pb
 frontend/src/proto
+
+# root go modules specs
+go.mod
+go.sum
