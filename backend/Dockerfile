@@ -1,14 +1,10 @@
-FROM golang:alpine AS builder
-RUN apk update && apk upgrade && apk add --no-cache git ca-certificates gcc musl-dev
-ENV GO111MODULE=on
+FROM golang AS builder
 WORKDIR /src/app
-COPY ./go.mod ./go.sum ./
-RUN go mod download
 COPY ./ ./
-RUN go fix ./...
-RUN go build -o /app
+RUN go build -mod=vendor -o /app
 
-FROM alpine
-RUN apk update && apk upgrade && apk add --no-cache bash ca-certificates curl htop
+FROM debian
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt upgrade -y && DEBIAN_FRONTEND=noninteractive apt install ca-certificates curl htop -y
 COPY --from=builder /app /app
 ENTRYPOINT /app
+EXPOSE 9000

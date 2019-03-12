@@ -5,7 +5,6 @@ package pb;
 service HeuristGrpc {
   rpc Check(CheckUsernameRequest) returns (CheckUsernameResponse) {};
   rpc GetUser(GetUserDetailsRequest) returns (GetUserDetailsResponse) {};
-
 }
 
 message CheckUsernameRequest {

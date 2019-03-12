@@ -1,10 +1,9 @@
 FROM node:8 AS builder
 WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json", "./"]
-RUN npm install --silent && mv node_modules ../
-RUN npm install -g parcel-bundler
+COPY package.json package-lock.json ./
+RUN npm install --silent
 COPY . .
-RUN npm run build
+RUN npx parcel build src/index.html
 
-FROM nginx:alpine
+FROM nginx
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html

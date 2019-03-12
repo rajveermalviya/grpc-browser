@@ -1,4 +1,4 @@
-FROM envoyproxy/envoy-alpine
+FROM envoyproxy/envoy
 COPY ./envoy.yaml /etc/envoy/envoy.yaml
 
 # docker build -t grpc/envoy -f ./envoy.Dockerfile .
